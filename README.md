@@ -23,7 +23,7 @@ Figure 1: An Example of a MQTT Implementation
 ## Setup Instructions
 
 ### 1. Setting Up MQTT Broker (on your laptop)
-We will use Mosquitto MQTT broker (version 2). After unzipping, update the configuration file (`mosquitto.conf`) to allow network address listening.
+We will use Mosquitto MQTT broker [version 2](http://www.steves-internet-guide.com/download/6-bit-mosquitto-v2/). After unzipping, update the configuration file (`mosquitto.conf`) to allow network address listening.
 
 #### Steps:
 - Update `mosquitto.conf` as shown in below.
@@ -42,10 +42,10 @@ Replace `192.168.x.x` with the broker’s IP and `csc2006` with your chosen topi
 ### 3. Setting Up MQTT Client – Publisher (on your laptop)
 Start the client as a publisher using:
 `mosquitto_pub -h 192.168.x.x -m “This is CSC2006” -t csc2006`
-Ensure the broker's IP and topic match the subscriber's settings.
+Ensure the broker's IP and topic match the subscriber's settings (`-h` to specify the IP for the broker and `-t` to specify the topic).
 
 ### 4. Setting Up MQTT Client (on the M5StickC Plus)
-Configure the MQTT client on M5StickC Plus using API libraries and the provided sample code (Lab 4 – mqtt.ino). Ensure correct SSID, password, and broker IP. Test communication with the PC subscriber.
+Configure the MQTT client on M5StickC Plus using API libraries and the provided sample code [mqtt.ino](mqtt.ino). Ensure correct SSID, password, and broker IP. Test communication with the PC subscriber.
 
 ## Common Problems and Solutions
 - **Mismatched Topics**: Ensure both publisher and subscriber are using the same topic name.
