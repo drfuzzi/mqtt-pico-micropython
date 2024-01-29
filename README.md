@@ -16,7 +16,9 @@ MQTT (Message Queue Telemetry Transport) is a lightweight, open, easy-to-impleme
 - **Topic**: A namespace for categorizing messages on the broker.
 - **MQTT Client**: A device that either publishes to or subscribes to a topic on the broker. Clients can publish, subscribe, unsubscribe, and disconnect from the broker.
 
-![MQTT Implementation Example](URL_of_Figure_1_Image)
+![image](https://github.com/drfuzzi/CSC2106_MQTT/assets/108112390/1f809798-135f-4cdc-be7e-0085df0b452f)
+
+Figure 1: An Example of a MQTT Implementation
 
 ## Setup Instructions
 
@@ -24,10 +26,13 @@ MQTT (Message Queue Telemetry Transport) is a lightweight, open, easy-to-impleme
 We will use Mosquitto MQTT broker (version 2). After unzipping, update the configuration file (`mosquitto.conf`) to allow network address listening.
 
 #### Steps:
-- Update `mosquitto.conf` as shown in Figure 2.
+- Update `mosquitto.conf` as shown in below.
 - Start the broker with `mosquitto -c mosquitto.conf -v` in the command prompt. Default port is 1883.
 
-![Mosquitto Configuration Changes](URL_of_Figure_2_Image)
+```
+listener 1883
+allow_anonymous true
+```
 
 ### 2. Setting Up MQTT Client - Subscriber (on your laptop)
 Use the following command to start the client as a subscriber:
@@ -60,5 +65,3 @@ Configure the MQTT client on M5StickC Plus using API libraries and the provided 
 4. [Arduino MQTT Client Code](https://github.com/m5stack/M5StickC-Plus/blob/master/examples/Advanced/MQTT/MQTT.ino)
 5. [Thingsboard MQTT Integration](https://thingsboard.io/docs/user-guide/integrations/mqtt/)
 6. [Thingspeak MQTT Basics](https://www.mathworks.com/help/thingspeak/mqtt-basics.html)
-
-*Note: Replace `URL_of_Figure_1_Image` and `URL_of_Figure_2_Image` with the actual URLs of the images if available.*
