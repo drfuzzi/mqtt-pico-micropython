@@ -1,4 +1,4 @@
-# MQTT Broker and Client Configuration Lab
+# Configure Pi Pico W as a MQTT Client using Micropython
 
 ## Objectives
 - Configure an MQTT Broker on a PC.
