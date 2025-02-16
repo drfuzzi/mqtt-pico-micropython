@@ -47,6 +47,40 @@ Ensure the broker's IP and topic match the subscriber's settings (`-h` to specif
 ### 4. Setting Up MQTT Client (on the M5StickC Plus)
 Configure the MQTT client on M5StickC Plus using API libraries and the provided sample code [mqtt.ino](mqtt.ino). Ensure correct SSID, password, and broker IP. Test communication with the PC subscriber.
 
+### Getting MicroPython to work on Pico C
+For the Pico C to be able to run MircoPython, it will need to have a UTF firmware loaded in before it is able to run any python code.
+
+Download UTF2 firmware (I’ve downloaded the latest version and it works for me, just in case this is the link to the previous versions https://micropython.org/download/RPI_PICO_W/)
+
+Simple.py is needed for Thonny to allow for it to use MQTT (You can download it from here and this is the GitHub where the file was originally from https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple)
+
+To install simple.py into thorny, you will need to create 2 folders, lib and umqtt (umqtt will need to be inside lib) as seen below.
+
+1)	How to show files inside Thonny
+   
+<img src="/img/Thonny Where to Find Files.png" width=50% height=50%>
+
+Below is what would be seen, the top would be your PC and below the Pico C
+
+<img src="/img/Thonny Seperate Files.png" width=50% height=50%>
+
+3)	Create the folder by right clicking and selecting new directory (Double click the folder to enter it and create another)
+
+<img src="/img/Thonny Create Directory(Folder).png" width=50% height=50%>
+ 
+4)	To upload, go into the folder by double clicking and that would move you into the folder. Select the file you want to upload and right click and select upload to.
+
+ <img src="/img/Thonny File Upload.png" width=50% height=50%>
+
+You can go back to the main folder by clicking on Raspberry Pi Pico
+
+**Connecting to broker, sending a message then disconnecting**
+
+(To run and rerun the code, you only need to click on the green run button)
+ <img src="/img/Thonny How to Run Code.png" width=50% height=50%>
+
+
+-
 ## Common Problems and Solutions
 - **Mismatched Topics**: Ensure both publisher and subscriber are using the same topic name.
 - **Incorrect Broker IP**: Verify the IP address of the MQTT broker.
