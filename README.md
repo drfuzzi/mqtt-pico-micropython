@@ -77,6 +77,7 @@ You can go back to the main folder by clicking on Raspberry Pi Pico
 **Connecting to broker, sending a message then disconnecting**
 
 (To run and rerun the code, you only need to click on the green run button)
+
  <img src="/img/Thonny How to Run Code.png" width=25% height=25%>
 ```
 import network
