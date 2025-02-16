@@ -79,6 +79,7 @@ You can go back to the main folder by clicking on Raspberry Pi Pico
 (To run and rerun the code, you only need to click on the green run button)
 
  <img src="/img/Thonny How to Run Code.png" width=25% height=25%>
+ 
 ```
 import network
 import time
@@ -94,7 +95,7 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "pico/test"  # Topic to publish
 MQTT_CLIENT_ID = "PicoW_Client"
 
-# Connect to Wi-Fi (already tested)
+# Connect to Wi-Fi
 def wifi_connect():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
@@ -126,6 +127,7 @@ publish_message(mqtt_client)
 mqtt_client.disconnect()
 print("Disconnected from MQTT")
 ```
+
 What would be shown 
 
  <img src="/img/Thonny Sending Message.png" width=50% height=50%>
