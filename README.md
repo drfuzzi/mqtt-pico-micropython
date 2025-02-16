@@ -47,8 +47,8 @@ Ensure the broker's IP and topic match the subscriber's settings (`-h` to specif
 ### 4. Setting Up MQTT Client (on the M5StickC Plus)
 Configure the MQTT client on M5StickC Plus using API libraries and the provided sample code [mqtt.ino](mqtt.ino). Ensure correct SSID, password, and broker IP. Test communication with the PC subscriber.
 
-### Getting MicroPython to work on Pico C
-For the Pico C to be able to run MircoPython, it will need to have a UTF firmware loaded in before it is able to run any python code.
+### Getting MicroPython to work on Pico W
+For the Pico W to be able to run MircoPython, it will need to have a UTF firmware loaded in before it is able to run any python code.
 
 Download UTF2 firmware (I’ve downloaded the latest version and it works for me, just in case this is the link to the previous versions https://micropython.org/download/RPI_PICO_W/)
 
@@ -60,7 +60,7 @@ To install simple.py into thorny, you will need to create 2 folders, lib and umq
    
 <img src="/img/Thonny Where to Find Files.png" width=25% height=25%>
 
-Below is what would be seen, the top would be your PC and below the Pico C
+Below is what would be seen, the top would be your PC and below the Pico W
 
 <img src="/img/Thonny Seperate Files.png" width=25% height=25%>
 
@@ -129,7 +129,7 @@ What would be shown
  <img src="/img/Thonny Sending Message.png" width=25% height=25%>
  <img src="/img/CMD Receiving Message.png" width=25% height=25%>
 
-**Pico C sending message on button press**
+**Pico W sending message on button press**
 ```
 import network
 import time
@@ -197,7 +197,7 @@ What would be shown
  <img src="/img/Thonny Sending Message.png" width=25% height=25%>
  <img src="/img/CMD Receiving Message.png" width=25% height=25%>
 
-**Pico C LED to light up when specific message is received**
+**Pico W LED to light up when specific message is received**
 For this code, the LED light is tied to the message being sent, if the message is “on” then it would turn the LED light on, if the message is “off” it would turn the LED light off.
 ```
 import network
