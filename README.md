@@ -126,8 +126,9 @@ mqtt_client.disconnect()
 print("Disconnected from MQTT")
 ```
 What would be shown 
- <img src="/img/Thonny Sending Message.png" width=25% height=25%>
- <img src="/img/CMD Receiving Message.png" width=25% height=25%>
+
+ <img src="/img/Thonny Sending Message.png" width=50% height=50%>
+ <img src="/img/CMD Receiving Message.png" width=50% height=50%>
 
 **Pico W sending message on button press**
 ```
@@ -194,8 +195,9 @@ while True:
     time.sleep(0.1)  # Polling delay
 ```
 What would be shown
- <img src="/img/Thonny Sending Message.png" width=25% height=25%>
- <img src="/img/CMD Receiving Message.png" width=25% height=25%>
+
+ <img src="/img/Thonny Sending Message.png" width=50% height=50%>
+ <img src="/img/CMD Receiving Message.png" width=50% height=50%>
 
 **Pico W LED to light up when specific message is received**
 For this code, the LED light is tied to the message being sent, if the message is “on” then it would turn the LED light on, if the message is “off” it would turn the LED light off.
@@ -269,8 +271,9 @@ while True:
     time.sleep(0.1)  # Polling delay
 ```
 What would be shown
- <img src="/img/CMD LED.png" width=25% height=25%>
- <img src="/img/Thonny LED.png" width=25% height=25%>
+
+ <img src="/img/CMD LED.png" width=50% height=50%>
+ <img src="/img/Thonny LED.png" width=50% height=50%>
 
 
 ## Common Problems and Solutions
