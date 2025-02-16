@@ -58,7 +58,7 @@ To install simple.py into thorny, you will need to create 2 folders, lib and umq
 
 1)	How to show files inside Thonny
    
-<img src="/img/Thonny Where to Find Files.png" width=50% height=50%>
+<img src="/img/Thonny Where to Find Files.png" width=25% height=25%>
 
 Below is what would be seen, the top would be your PC and below the Pico C
 
