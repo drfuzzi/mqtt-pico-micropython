@@ -64,15 +64,21 @@ Below is what would be seen, the top would be your PC and below the Pico W
 
 <img src="/img/Thonny Seperate Files.png" width=25% height=25%>
 
-3)	Create the folder by right clicking and selecting new directory (Double click the folder to enter it and create another)
+2)	Create the folder by right clicking and selecting new directory (Double click the folder to enter it and create another)
 
 <img src="/img/Thonny Create Directory(Folder).png" width=25% height=25%>
  
-4)	To upload, go into the folder by double clicking and that would move you into the folder. Select the file you want to upload and right click and select upload to.
+3)	To upload, go into the folder by double clicking and that would move you into the folder. Select the file you want to upload and right click and select upload to.
 
  <img src="/img/Thonny File Upload.png" width=25% height=25%>
 
 You can go back to the main folder by clicking on Raspberry Pi Pico
+
+4) To connect Thonny to the Pico W, click on tools, go to options, select MicroPython (Raspberry Pi Pico) and the port your Pico W is connected to.
+
+<img src="/img/Thonny Options.png" width=25% height=25%>
+
+<img src="/img/Thonny Connecting Pico.png" width=25% height=25%>
 
 **Connecting to broker, sending a message then disconnecting**
 
