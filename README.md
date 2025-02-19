@@ -78,7 +78,7 @@ You can go back to the main folder by clicking on Raspberry Pi Pico
 
 <img src="/img/Thonny Options.png" width=25% height=25%>
 
-<img src="/img/Thonny Connecting Pico.png" width=25% height=25%>
+<img src="/img/Thonny Connecting Pico.png" width=45% height=45%>
 
 **Connecting to broker, sending a message then disconnecting**
 
