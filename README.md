@@ -1,12 +1,12 @@
-# Configure Pi Pico W as a MQTT Client using Micropython
+# Configure Raspberry Pi Pico W as a MQTT Client using Micropython
 
 ## Objectives
 - Configure an MQTT Broker on a PC.
-- Set up MQTT subscribers and publishers on both the PC and IoT devices.
+- Set up MQTT subscribers and publishers on Raspberry Pi Pico W devices.
 
 ## Equipment
 - Computer / Laptop
-- M5StickC Plus
+- Raspberry Pi Pico W
 
 ## Introduction
 MQTT (Message Queue Telemetry Transport) is a lightweight, open, easy-to-implement messaging transport protocol, making it ideal for Internet of Things (IoT) contexts with limited network bandwidth and small code footprint requirements. It operates over TCP/IP or similar network protocols, providing ordered, lossless, bidirectional connections.
@@ -21,31 +21,6 @@ MQTT (Message Queue Telemetry Transport) is a lightweight, open, easy-to-impleme
 Figure 1: An Example of a MQTT Implementation
 
 ## Setup Instructions
-
-### 1. Setting Up MQTT Broker (on your laptop)
-We will use Mosquitto MQTT broker [version 2](http://www.steves-internet-guide.com/download/6-bit-mosquitto-v2/). After unzipping, update the configuration file (`mosquitto.conf`) to allow network address listening.
-
-#### Steps:
-- Update `mosquitto.conf` as shown in below.
-- Start the broker with `mosquitto -c mosquitto.conf -v` in the command prompt. Default port is 1883.
-
-```
-listener 1883
-allow_anonymous true
-```
-
-### 2. Setting Up MQTT Client - Subscriber (on your laptop)
-Use the following command to start the client as a subscriber:
-`mosquitto_sub -h 192.168.x.x -t csc2006`
-Replace `192.168.x.x` with the broker’s IP and `csc2006` with your chosen topic.
-
-### 3. Setting Up MQTT Client – Publisher (on your laptop)
-Start the client as a publisher using:
-`mosquitto_pub -h 192.168.x.x -m “This is CSC2006” -t csc2006`
-Ensure the broker's IP and topic match the subscriber's settings (`-h` to specify the IP for the broker and `-t` to specify the topic).
-
-### 4. Setting Up MQTT Client (on the M5StickC Plus)
-Configure the MQTT client on M5StickC Plus using API libraries and the provided sample code [mqtt.ino](mqtt.ino). Ensure correct SSID, password, and broker IP. Test communication with the PC subscriber.
 
 ### Getting MicroPython to work on Pico W
 For the Pico W to be able to run MircoPython, it will need to have a UTF firmware loaded in before it is able to run any python code.
