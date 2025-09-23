@@ -171,6 +171,9 @@ Use retained messages and LWT to improve reliability.
 
 ## References
 Mosquitto Install Guide (http://www.steves-internet-guide.com/install-mosquitto-broker/)
+
 Mosquitto Client Guide(http://www.steves-internet-guide.com/mosquitto_pub-sub-clients/)
+
 Thingsboard MQTT Integration (https://thingsboard.io/docs/user-guide/integrations/mqtt/)
+
 ThingSpeak MQTT Basics (https://www.mathworks.com/help/thingspeak/mqtt-basics.html)
