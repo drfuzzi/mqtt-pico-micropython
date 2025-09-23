@@ -83,8 +83,10 @@ def connect_mqtt():
 
 wifi_connect()
 mqtt = connect_mqtt()
+mqtt.publish(TOPIC, "Hello from Pico W!")
+mqtt.disconnect()
 ```
-###B. Publish on Button Press
+### B. Publish on Button Press
 ```
 from machine import Pin
 import time
@@ -100,7 +102,7 @@ while True:
         led.off()
     time.sleep(0.1)
 ```
-###C. Control LED via MQTT
+### C. Control LED via MQTT
 ```
 def callback(topic, msg):
     if msg.decode() == "on":
@@ -115,9 +117,9 @@ while True:
     mqtt.check_msg()
     time.sleep(0.1)
 ```
-##Advanced MQTT Configuration
+## Advanced MQTT Configuration
 
-###1. Quality of Service (QoS)
+### 1. Quality of Service (QoS)
 MQTT supports three QoS levels:
 
 QoS 0: At most once (no guarantee of delivery)
@@ -130,12 +132,45 @@ mqtt.subscribe("pico/led", qos=1)
 mqtt.publish("pico/led", "on", qos=1)
 ```
 
-###2. Last Will & Testament (LWT)
+### 2. Last Will & Testament (LWT)
 
 Notifies subscribers if a client disconnects unexpectedly:
 ```
 client = MQTTClient(CLIENT_ID, BROKER, keepalive=60)
 client.set_last_will("pico/status", "offline", retain=True)
-mqtt.publish(TOPIC, "Hello from Pico W!")
-mqtt.disconnect()
 ```
+
+### 3. Retained Messages
+
+Ensures new subscribers immediately receive the last published message:
+```
+mqtt.publish("pico/led", "on", retain=True)
+```
+
+### 4. Persistent Sessions
+
+Keep subscriptions active even when the client disconnects:
+```
+client = MQTTClient(CLIENT_ID, BROKER, clean_session=False)
+```
+
+## Troubleshooting
+-------------------------------------------------------------------------
+| Issue                        | Solution                               |
+| ---------------------------- | -------------------------------------- |
+| No messages received         | Check broker IP and topic name         |
+| Wi-Fi not connecting         | Verify SSID/password, signal strength  |
+| Multiple clients conflicting | Use unique `CLIENT_ID` for each client |
+-------------------------------------------------------------------------
+
+## Lab Assignment
+
+Configure two Pico W devices.
+Device A controls Device B's LED via MQTT.
+Use retained messages and LWT to improve reliability.
+
+## References
+Mosquitto Install Guide (http://www.steves-internet-guide.com/install-mosquitto-broker/)
+Mosquitto Client Guide(http://www.steves-internet-guide.com/mosquitto_pub-sub-clients/)
+Thingsboard MQTT Integration (https://thingsboard.io/docs/user-guide/integrations/mqtt/)
+ThingSpeak MQTT Basics (https://www.mathworks.com/help/thingspeak/mqtt-basics.html)
