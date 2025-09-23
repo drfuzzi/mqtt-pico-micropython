@@ -1,280 +1,141 @@
-# Configure Raspberry Pi Pico W as a MQTT Client using Micropython
+# Configure Raspberry Pi Pico W as an MQTT Client using MicroPython
 
 ## Objectives
-- Configure an MQTT Broker on a PC.
-- Set up MQTT subscribers and publishers on Raspberry Pi Pico W devices.
+- Set up an MQTT broker on a PC.
+- Configure Raspberry Pi Pico W as MQTT publishers/subscribers.
+- Explore MQTT features like QoS, LWT, and retained messages.
+
+---
 
 ## Equipment
-- Computer / Laptop
-- Raspberry Pi Pico W
+- Computer or laptop
+- Raspberry Pi Pico W with MicroPython firmware
+- MQTT broker software (e.g., Mosquitto)
+
+---
 
 ## Introduction
-MQTT (Message Queue Telemetry Transport) is a lightweight, open, easy-to-implement messaging transport protocol, making it ideal for Internet of Things (IoT) contexts with limited network bandwidth and small code footprint requirements. It operates over TCP/IP or similar network protocols, providing ordered, lossless, bidirectional connections.
+MQTT (Message Queue Telemetry Transport) is a lightweight messaging protocol ideal for IoT applications where network bandwidth and processing power are limited. It works on a publish/subscribe model using topics, making it easy to send and receive messages between devices.
 
-### MQTT Components
-- **MQTT Broker**: A program that relays messages between clients, requiring each message to be associated with a topic.
-- **Topic**: A namespace for categorizing messages on the broker.
-- **MQTT Client**: A device that either publishes to or subscribes to a topic on the broker. Clients can publish, subscribe, unsubscribe, and disconnect from the broker.
+### Key Components
+- **Broker:** Handles all message routing between clients.
+- **Client:** A device that can publish, subscribe, or both.
+- **Topic:** A hierarchical string that defines where messages are published and from where they are subscribed.
 
-![image](https://github.com/drfuzzi/CSC2106_MQTT/assets/108112390/1f809798-135f-4cdc-be7e-0085df0b452f)
+Example MQTT architecture:
 
-Figure 1: An Example of a MQTT Implementation
+![MQTT Example](https://github.com/drfuzzi/CSC2106_MQTT/assets/108112390/1f809798-135f-4cdc-be7e-0085df0b452f)
+
+---
 
 ## Setup Instructions
 
-### Getting MicroPython to work on Pico W
-For the Pico W to be able to run MircoPython, it will need to have a UTF firmware loaded in before it is able to run any python code.
+### 1. Install MicroPython on the Pico W
+1. Download the latest MicroPython firmware for Pico W:  
+   [https://micropython.org/download/RPI_PICO_W/](https://micropython.org/download/RPI_PICO_W/)
+2. Flash the firmware onto the Pico W (drag and drop the `.uf2` file when Pico W is in BOOTSEL mode).
 
-Download UTF2 firmware (I’ve downloaded the latest version and it works for me, just in case this is the link to the previous versions https://micropython.org/download/RPI_PICO_W/)
+---
 
-Simple.py is needed for Thonny to allow for it to use MQTT (You can download it from here and this is the GitHub where the file was originally from https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple)
+### 2. Prepare Thonny
+- Install [Thonny IDE](https://thonny.org/).
+- Connect Pico W to your PC.
+- In **Tools → Options → Interpreter**, select `MicroPython (Raspberry Pi Pico)` and choose the correct port.
 
-To install simple.py into thorny, you will need to create 2 folders, lib and umqtt (umqtt will need to be inside lib) as seen below.
+---
 
-1)	How to show files inside Thonny
-   
-<img src="/img/Thonny Where to Find Files.png" width=25% height=25%>
+### 3. Install MQTT Library
+You need the `umqtt.simple` library for MQTT communication:
+1. In Thonny's **Files** view, create a folder named `lib` on the Pico W.
+2. Inside `lib`, create another folder named `umqtt`.
+3. Download `simple.py` from the [MicroPython Library](https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple) and upload it into the `umqtt` folder.
 
-Below is what would be seen, the top would be your PC and below the Pico W
+---
 
-<img src="/img/Thonny Seperate Files.png" width=25% height=25%>
+## Example Codes
 
-2)	Create the folder by right clicking and selecting new directory (Double click the folder to enter it and create another)
-
-<img src="/img/Thonny Create Directory(Folder).png" width=25% height=25%>
- 
-3)	To upload, go into the folder by double clicking and that would move you into the folder. Select the file you want to upload and right click and select upload to.
-
- <img src="/img/Thonny File Upload.png" width=25% height=25%>
-
-You can go back to the main folder by clicking on Raspberry Pi Pico
-
-4) To connect Thonny to the Pico W, click on tools, go to options, select MicroPython (Raspberry Pi Pico) and the port your Pico W is connected to.
-
-<img src="/img/Thonny Options.png" width=25% height=25%>
-
-<img src="/img/Thonny Connecting Pico.png" width=45% height=45%>
-
-**Connecting to broker, sending a message then disconnecting**
-
-(To run and rerun the code, you only need to click on the green run button)
-
- <img src="/img/Thonny How to Run Code.png" width=25% height=25%>
- 
-```
-import network
-import time
+### A. Simple Publish
+```python
+import network, time
 from umqtt.simple import MQTTClient
-
-# Wi-Fi Credentials 
-WIFI_SSID = "SSID "
-WIFI_PASS = "PASSWORD"
-
-# MQTT Broker Details
-MQTT_BROKER = "xx.xx.xx.xx"  # Change this to your broker's IP
-MQTT_PORT = 1883
-MQTT_TOPIC = "pico/test"  # Topic to publish
-MQTT_CLIENT_ID = "PicoW_Client"
-
-# Connect to Wi-Fi
-def wifi_connect():
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect(WIFI_SSID, WIFI_PASS)
-
-    while not wlan.isconnected():
-        print("Connecting to Wi-Fi...")
-        time.sleep(1)
-
-    print("Connected to Wi-Fi:", wlan.ifconfig())
-
-# Connect to MQTT Broker
-def connect_mqtt():
-    client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, port=MQTT_PORT)
-    client.connect()
-    print(f"Connected to MQTT Broker at {MQTT_BROKER}:{MQTT_PORT}")
-    return client
-
-# Publish a test message
-def publish_message(client):
-    message = "Hello from Raspberry Pi Pico W!"
-    client.publish(MQTT_TOPIC, message)
-    print(f"Published: {message}")
-
-# Run MQTT Test
-wifi_connect()
-mqtt_client = connect_mqtt()
-publish_message(mqtt_client)
-mqtt_client.disconnect()
-print("Disconnected from MQTT")
-```
-
-What would be shown 
-
- <img src="/img/Thonny Sending Message.png" width=50% height=50%>
- <img src="/img/CMD Receiving Message.png" width=50% height=50%>
-
-**Pico W sending message on button press**
-```
-import network
-import time
-from umqtt.simple import MQTTClient
-from machine import Pin
 
 # Wi-Fi Credentials
-WIFI_SSID = "SSID "
-WIFI_PASS = "PASSWORD"
+SSID = "YourWiFi"
+PASSWORD = "YourPassword"
 
-# MQTT Broker Details
-MQTT_BROKER = "xx.xx.xx.xx"  # Change this to your broker's IP
-MQTT_TOPIC = "pico/test"  # Topic to publish on button press
-MQTT_CLIENT_ID = "PicoW_Client"
+# MQTT Details
+BROKER = "192.168.1.10"
+TOPIC = "pico/test"
+CLIENT_ID = "PicoW_Client"
 
-# Button and LED Setup
-BUTTON_PIN = 20  # GPIO 15 for button input
-LED_PIN = "LED"  # Onboard LED
-
-button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)  # Pull-up to detect press
-led = Pin(LED_PIN, Pin.OUT)  # LED for visual feedback
-
-# Connect to Wi-Fi
 def wifi_connect():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect(WIFI_SSID, WIFI_PASS)
-
+    wlan.connect(SSID, PASSWORD)
     while not wlan.isconnected():
-        print("Connecting to Wi-Fi...")
         time.sleep(1)
+    print("Connected:", wlan.ifconfig())
 
-    print("Connected to Wi-Fi:", wlan.ifconfig())
-
-# Connect to MQTT Broker
 def connect_mqtt():
-    client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, port=1883)
+    client = MQTTClient(CLIENT_ID, BROKER)
     client.connect()
-    print(f"Connected to MQTT Broker at {MQTT_BROKER}:1883")
     return client
 
-# Publish message when button is pressed
-def publish_message(client):
-    message = "Button Pressed!"
-    client.publish(MQTT_TOPIC, message)
-    print(f"Published: {message}")
-
-# Run Everything
 wifi_connect()
-mqtt_client = connect_mqtt()
+mqtt = connect_mqtt()
+```
+###B. Publish on Button Press
+```
+from machine import Pin
+import time
 
-print("Press the button to send an MQTT message!")
+button = Pin(20, Pin.IN, Pin.PULL_UP)
+led = Pin("LED", Pin.OUT)
 
-# Main Loop: Check for button press
 while True:
-    if button.value() == 0:  # Button is pressed (active-low)
-        print("Button Pressed!")
-        led.on()  # Turn on LED
-        publish_message(mqtt_client)  # Send MQTT message
-        time.sleep(1)  # Debounce delay
-        led.off()  # Turn off LED
-    time.sleep(0.1)  # Polling delay
-```
-What would be shown
-
- <img src="/img/Thonny Sending Message.png" width=50% height=50%>
- <img src="/img/CMD Receiving Message.png" width=50% height=50%>
-
-**Pico W LED to light up when specific message is received**
-For this code, the LED light is tied to the message being sent, if the message is “on” then it would turn the LED light on, if the message is “off” it would turn the LED light off.
-```
-import network
-import time
-from umqtt.simple import MQTTClient
-from machine import Pin
-
-# Wi-Fi Credentials
-WIFI_SSID = "SSID "
-WIFI_PASS = "PASSWORD"
-
-# MQTT Broker Details
-MQTT_BROKER = "xx.xx.xx.xx"  # Change this to your broker's IP
-MQTT_TOPIC_SUBSCRIBE = "pico/led"  # Topic to listen for LED control
-MQTT_CLIENT_ID = "PicoW_Client"
-
-# LED Setup
-LED_PIN = 15  # Change to the GPIO pin you connected your LED to
-led = Pin(LED_PIN, Pin.OUT)  # LED for feedback
-
-# Connect to Wi-Fi
-def wifi_connect():
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect(WIFI_SSID, WIFI_PASS)
-
-    while not wlan.isconnected():
-        print("Connecting to Wi-Fi...")
-        time.sleep(1)
-
-    print("Connected to Wi-Fi:", wlan.ifconfig())
-
-# MQTT Message Callback (Controls LED)
-def mqtt_callback(topic, msg):
-    message = msg.decode().strip().lower()
-    print(f"Received message on {topic.decode()}: {message}")
-
-    if message == "on":
-        print("Turning LED ON")
+    if not button.value():
         led.on()
-    elif message == "off":
-        print("Turning LED OFF")
+        mqtt.publish(TOPIC, "Button Pressed!")
+        time.sleep(1)
         led.off()
-    else:
-        print("Unknown message received!")
-
-# Connect to MQTT Broker
-def connect_mqtt():
-    client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, port=1883)
-    client.set_callback(mqtt_callback)
-    client.connect()
-    print(f"Connected to MQTT Broker at {MQTT_BROKER}:1883")
-
-    # Subscribe to LED control topic
-    client.subscribe(MQTT_TOPIC_SUBSCRIBE)
-    print(f"Subscribed to {MQTT_TOPIC_SUBSCRIBE}")
-
-    return client
-
-# Run Everything
-wifi_connect()
-mqtt_client = connect_mqtt()
-
-print(f"Listening for LED control messages on {MQTT_TOPIC_SUBSCRIBE}")
-
-# Main Loop: Listen for MQTT messages
-while True:
-    mqtt_client.check_msg()  # Check for incoming MQTT messages
-    time.sleep(0.1)  # Polling delay
+    time.sleep(0.1)
 ```
-What would be shown
+###C. Control LED via MQTT
+```
+def callback(topic, msg):
+    if msg.decode() == "on":
+        led.on()
+    elif msg.decode() == "off":
+        led.off()
 
- <img src="/img/CMD LED.png" width=50% height=50%>
- <img src="/img/Thonny LED.png" width=50% height=50%>
+mqtt.set_callback(callback)
+mqtt.subscribe("pico/led")
 
+while True:
+    mqtt.check_msg()
+    time.sleep(0.1)
+```
+##Advanced MQTT Configuration
 
-## Common Problems and Solutions
-- **Mismatched Topics**: Ensure both publisher and subscriber are using the same topic name.
-- **Incorrect Broker IP**: Verify the IP address of the MQTT broker.
-- **Network Issues**: Check for proper network connectivity and firewall settings.
+###1. Quality of Service (QoS)
+MQTT supports three QoS levels:
 
-## Lab Assignment
-1. **Node Interaction Using MQTT**
-   - Configure two M5StickC devices (Node A and Node B).
-   - Node A should toggle Node B's LED (and vice-versa) upon button press.
-   - Implement and propose appropriate topic names for this interaction.
+QoS 0: At most once (no guarantee of delivery)
+QoS 1: At least once (may deliver duplicates)
+QoS 2: Exactly once (most reliable, but slowest)
 
-## References
-1. [Mosquitto Install Guide](http://www.steves-internet-guide.com/install-mosquitto-broker/)
-2. [Mosquitto Broker Guide](http://www.steves-internet-guide.com/mosquitto-broker/)
-3. [Mosquitto Client Publish & Subscribe Guide](http://www.steves-internet-guide.com/mosquitto_pub-sub-clients/)
-4. [Arduino MQTT Client Code](https://github.com/m5stack/M5StickC-Plus/blob/master/examples/Advanced/MQTT/MQTT.ino)
-5. [Thingsboard MQTT Integration](https://thingsboard.io/docs/user-guide/integrations/mqtt/)
-6. [Thingspeak MQTT Basics](https://www.mathworks.com/help/thingspeak/mqtt-basics.html)
+Example with QoS 1:
+```
+mqtt.subscribe("pico/led", qos=1)
+mqtt.publish("pico/led", "on", qos=1)
+```
+
+###2. Last Will & Testament (LWT)
+
+Notifies subscribers if a client disconnects unexpectedly:
+```
+client = MQTTClient(CLIENT_ID, BROKER, keepalive=60)
+client.set_last_will("pico/status", "offline", retain=True)
+mqtt.publish(TOPIC, "Hello from Pico W!")
+mqtt.disconnect()
+```
