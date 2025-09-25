@@ -67,12 +67,19 @@ You need the `umqtt.simple` library for MQTT communication:
 <img src="/img/Thonny Where to Find Files.png" width=25% height=25%>
 <img src="/img/Thonny Seperate Files.png" width=25% height=25%>
 <img src="/img/Thonny Create Directory(Folder).png" width=25% height=25%>
+
 2. Inside `lib`, create another folder named `umqtt`.
+
 3. Download `simple.py` from the [MicroPython Library](https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple) and upload it into the `umqtt` folder.
 
+<img src="/img/Thonny File Upload.png" width=25% height=25%>
+<img src="/img/Thonny Options.png" width=25% height=25%>
+<img src="/img/Thonny Connecting Pico.png" width=45% height=45%>
 ---
 
 ## Example Codes
+
+ <img src="/img/Thonny How to Run Code.png" width=25% height=25%>
 
 ### A. Simple Publish
 ```python
