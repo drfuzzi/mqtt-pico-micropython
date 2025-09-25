@@ -150,7 +150,9 @@ while True:
 MQTT supports three QoS levels:
 
 QoS 0: At most once (no guarantee of delivery)
+
 QoS 1: At least once (may deliver duplicates)
+
 QoS 2: Exactly once (most reliable, but slowest)
 
 Example with QoS 1:
